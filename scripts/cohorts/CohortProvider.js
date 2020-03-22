@@ -1,5 +1,6 @@
 //Responsible for managing all of the Cohorts Data. Holds all of the tools
-
+//the only module that knows exactly when the Cohortstatehas changed
+//thus it needs to let the rest of the application know
 // a copy of our cohort data
 
 let cohorts = []
@@ -32,16 +33,16 @@ export const getCohorts = () => {
 //Method that creates (posts) cohorts
 
 
-export const createCohort= () => {
-    return fetch('http://localhost:8088/cohorts', {
-        method: "POST",
+export const createCohort= (cohortObj) => { //this is where your new cohort objects get sent in as an argument into your new POST call
+    return fetch('http://localhost:8088/cohorts', { //goes to api where new Object is
+        method: "POST", //sending in to api
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json" //send it JSON
         },
-        body: JSON.stringify(cohortObj)
+        body: JSON.stringify(cohortObj) //turn our object into a string because JSON can only take JSON strings
     })
-    .then(getCohorts) //gets all the cohorts again defined on line 18
-    .then(dispatchStateChangeEvent) 
+    .then(getCohorts) //gets all the cohorts again defined on line 18 
+    .then(dispatchStateChangeEvent) //dispatch the event that says hey all the cohorts have changed
 }
 
 
